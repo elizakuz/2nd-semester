@@ -1,3 +1,5 @@
+(* Ожидаемое время выполнения - 3ч;
+   реальное - 6ч *)
 type Tree = Nil | T of Tree * int * Tree
 
 let rec insert x t =
@@ -42,17 +44,21 @@ let rec printCLR t =
                    printCLR R
 [<EntryPoint>]
 let main args =
-  let  t = insert 1 Nil
-  let t = insert 5 t
-  let t = insert 10 t
-  let t = insert 9 t
-  let t = insert 3 t
-  let t = insert 2 t 
-  let t = insert 4 t
-  let t = delete 5 t
+  let t = insert 4 (insert 2 (insert 3 (insert 9 (insert 10 (insert 5 (insert 1 Nil))))))
+  printf "LCR: "
   printLCR t
-  printf "\n"
+  printf "\nLRC: "
   printLRC t
-  printf "\n"
+  printf "\nCLR: "
+  printCLR t
+  printf "\ndeleting 5, 2 and adding 100\n"
+  let t = delete 5 t
+  let t = delete 2 t
+  let t = insert 100 t
+  printf "LCR: "
+  printLCR t
+  printf "\nLRC: "
+  printLRC t
+  printf "\nCLR: "
   printCLR t
   0
