@@ -53,10 +53,11 @@ let rec foldTree f a t =
   | Nil -> a
   | T (L, b, R) -> foldTree f (foldTree f (f a b) L) R 
 let sumTree t = foldTree (fun x y -> x + y) 0 t
-let minTree t = 
-  match t with 
-  | Nil -> printf "Empty Tree\n"
-  | T (L, a, R) -> printf "%A\n" (foldTree (fun x y -> min x y) (foldTree (fun x y -> min x y) a L) R)
+let minOpt x y =  
+  match x with 
+  | None -> Some y
+  | Some x -> Some (min x y)
+let minTree t = foldTree minOpt None t
 let rec copyTree t = foldTree (fun t x -> insert x t) Nil t
 [<EntryPoint>]
 let main args =
@@ -73,7 +74,7 @@ let main args =
   printLCR t
   printf "\nsumTree: %A\n" (sumTree t)
   printf "minTree: "
-  minTree t
+  printf "%A\n" (minTree t)
   printf "copyTree: "
   printLCR (copyTree t)
   let k = T (Nil, 'a', Nil)
