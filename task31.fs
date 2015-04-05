@@ -64,49 +64,52 @@ Array2D.set matr 1 2 true
 Array2D.set matr 1 3 true
 Array2D.set matr 2 3 true
 Array2D.set matr 3 2 true
-let NewGr1 = new Graph (ver, matr)  
+let NewGr = new Graph (ver, matr)  
 
-[<Test>]
-let accTo0 () =
-  Assert.AreEqual(AccessTo (NewGr1, 0), [|1; 2; 3; 4|])
-  
-[<Test>]
-let accTo1 () =
-  Assert.AreEqual(AccessTo (NewGr1, 1), [|2; 3|])
+[<TestCase (0, Result = [|1; 2; 3; 4|])>]
+[<TestCase (1, Result = [|2; 3|])>]
+[<TestCase (2, Result = [|3|])>]
+[<TestCase (3, Result = [|2|])>]
+[<TestCase (4, Result = [||])>]
+let accTo num = AccessTo (NewGr, num)
 
-[<Test>]
-let accTo2 () =
-  Assert.AreEqual(AccessTo (NewGr1, 2), [|3|])
+[<TestCase (0, Result = [||])>]
+[<TestCase (1, Result = [|0|])>]
+[<TestCase (2, Result = [|0; 1; 3|])>]
+[<TestCase (3, Result = [|0; 1; 2|])>]
+[<TestCase (4, Result = [|0|])>]
+let accFrom num = AccessFrom (NewGr, num)
 
-[<Test>]
-let accTo3 () =
-  Assert.AreEqual(AccessTo (NewGr1, 3), [|2|])
+(*С помощью списка смежности граф из одной вершины*)
+let ver1 = [0]
+let list1 = []
+let NewGr1 = new GraphList (ver1, list1)
 
-[<Test>]
-let accTo4 () =
-  Assert.AreEqual(AccessTo (NewGr1, 4), [||])
+[<TestCase (0, Result = [||])>]
+let accTo1 num = AccessTo (NewGr1, num)
 
-[<Test>]
-let accFrom0 () =
-  Assert.AreEqual(AccessFrom (NewGr1, 0), [||])
+[<TestCase (0, Result = [||])>]
+let accFrom1 num = AccessFrom (NewGr1, num)
 
-[<Test>]
-let accFrom1 () =
-  Assert.AreEqual(AccessFrom (NewGr1, 1), [|0|])
+(*С помощью списка смежности: граф с 5 вершинами и ребрами: 0->3 0->4 1->0 2->1 3->2*) 
+let ver2 = [0..4] 
+let list2 = [[3; 4]; [0]; [1]; [2]; []] 
+let NewGr2 = new GraphList (ver2, list2)
 
-[<Test>]
-let accFrom2 () =
-  Assert.AreEqual(AccessFrom (NewGr1, 2), [|0; 1; 3|])
+[<TestCase (0, Result = [|1; 2; 3; 4|])>]
+[<TestCase (1, Result = [|0; 2; 3; 4|])>]
+[<TestCase (2, Result = [|0; 1; 3; 4|])>]
+[<TestCase (3, Result = [|0; 1; 2; 4|])>]
+[<TestCase (4, Result = [||])>]
+let accTo2 num = AccessTo (NewGr2, num)
 
-[<Test>]
-let accFrom3 () =
-  Assert.AreEqual(AccessFrom (NewGr1, 3), [|0; 1; 2|])
-
-[<Test>]
-let accFrom4 () =
-  Assert.AreEqual(AccessFrom (NewGr1, 4), [|0|])
-   
+[<TestCase (0, Result = [|1; 2 ;3|])>]
+[<TestCase (1, Result = [|0; 2; 3|])>]
+[<TestCase (2, Result = [|0; 1; 3|])>]
+[<TestCase (3, Result = [|0; 1; 2|])>]
+[<TestCase (4, Result = [|0; 1; 2; 3|])>]
+let accFrom2 num = AccessFrom (NewGr2, num)
+ 
 [<EntryPoint>]
 let main argv = 
-    0 
-
+    0
