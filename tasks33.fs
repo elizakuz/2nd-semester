@@ -2,7 +2,7 @@
    Time: expectation 1h
          reality 4h
       Kuzmina Elizaveta *)
-﻿open NUnit.Framework
+open NUnit.Framework
 
 type IPolyList<'A> =
   abstract member ToTop : 'A -> unit
@@ -116,72 +116,90 @@ type ArrList<'A> (arr : 'A []) =
 
 // Список
 [<Test>]
-let toTop () =
+let toTop1 () =
   let l1 = [1; 2; 3]
-  let l2 = []
-  let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
+  let NewList1 = new ATDList<int> (l1) :> IPolyList<int>
   NewList1.ToTop 1
-  NewList2.ToTop 1
   Assert.AreEqual (NewList1.ReturnL, [1; 1; 2; 3])
+
+[<Test>]
+let toTop2 () =
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
+  NewList2.ToTop 1
   Assert.AreEqual (NewList2.ReturnL, [1])
 
 [<Test>]
 let toEnd () =
   let l1 = [1; 2; 3]
-  let l2 = []
   let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int> 
   NewList1.ToEnd 1
-  NewList2.ToEnd 1
   Assert.AreEqual (NewList1.ReturnL, [1; 2; 3; 1])
+
+[<Test>]
+let toEnd2 () =
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int> 
+  NewList2.ToEnd 1
   Assert.AreEqual (NewList2.ReturnL, [1])
 
 [<Test>]
-let byNumber () =
+let byNumber1 () =
   let l1 = [1; 2; 3]
-  let l2 = []
   let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList1.ByNumber 1 1, true)
-  Assert.AreEqual (NewList2.ByNumber 2 1, false)
-  Assert.AreEqual (NewList2.ReturnL, [])
-  Assert.AreEqual (NewList2.ByNumber 1 1, true)
   Assert.AreEqual (NewList1.ReturnL, [1; 1; 2; 3])
-  Assert.AreEqual (NewList2.ReturnL, [1])
+
+[<TestCase (2, 1, Result = false)>]
+[<TestCase (1, 1, Result = true)>]
+let byNumber2 num1 num2 = 
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
+  NewList2.ByNumber num1 num2
 
 [<Test>]
-let delTop () =
+let delTop1 () =
   let l1 = [1; 2; 3]
-  let l2 = []
   let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList1.TopDel (), true )
   Assert.AreEqual (NewList1.ReturnL , [2; 3])
+
+
+[<Test>]
+let delTop2 () =
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList2.TopDel (), false )
   Assert.AreEqual (NewList2.ReturnL , [])
 
 [<Test>]
-let delEnd () =
+let delEnd1 () =
   let l1 = [1; 2; 3]
-  let l2 = []
   let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList1.EndDel (), true )
   Assert.AreEqual (NewList1.ReturnL , [1; 2])
+
+[<Test>]
+let delEnd2 () =
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList2.EndDel (), false )
   Assert.AreEqual (NewList2.ReturnL , [])
 
 [<Test>]
-let delNum () =
+let delNum1 () =
   let l1 = [1; 2; 3]
-  let l2 = []
   let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList1.NumDel 3, true )
   Assert.AreEqual (NewList1.ReturnL , [1; 2])
-  Assert.AreEqual (NewList2.NumDel 3, false )
-  Assert.AreEqual (NewList2.ReturnL , [])
+
+
+[<TestCase (1, Result = false)>]
+[<TestCase (2, Result = false)>]
+let delNum2 num = 
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
+  NewList2.NumDel num
 
 [<Test>]
 let concL () =
@@ -197,50 +215,47 @@ let concL () =
   Assert.AreEqual (NewList1.ReturnL, [1; 2; 3; 1; 2; 3] )
 
 [<Test>]
-let findL () =
+let findL1 () =
   let l1 = [1; 2; 3]
-  let l2 = []
-  let NewList1 = new ATDList<int> (l1) :> IPolyList<int> 
-  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
+  let NewList1 = new ATDList<int> (l1) :> IPolyList<int>
   Assert.AreEqual (NewList1.Finder (fun x -> x = 2) , Some 2)
+  Assert.AreEqual (NewList1.Finder (fun x -> x > 1), Some 2) 
+
+[<Test>]
+let findL () =
+  let l2 = []
+  let NewList2 = new ATDList<int> (l2) :> IPolyList<int>
   Assert.AreEqual (NewList2.Finder (fun x -> x = 2), None)
-  Assert.AreEqual (NewList1.Finder (fun x -> x > 1), Some 2)
     
 // Массив
-[<Test>]
-let toTopA () =
-  let a1 = [|1; 2; 3|]
-  let a2 = [||]
-  let NewArr1 = new ArrList<int> (a1) :> IPolyList<int> 
-  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
-  NewArr1.ToTop 1
-  NewArr2.ToTop 1
-  Assert.AreEqual (NewArr1.ReturnA, [|1; 1; 2; 3|])
-  Assert.AreEqual (NewArr2.ReturnA, [|1|])
+[<TestCase ([|1; 2; 3|], Result = [|1; 1; 2; 3|]) >]
+[<TestCase ([|1|], Result = [|1; 1|]) >]
+let toTopA a =
+  let NewArr = new ArrList<int> (a) :> IPolyList<int>
+  NewArr.ToTop 1
+  NewArr.ReturnA
+
+[<TestCase ([|1; 2; 3|], Result = [|1; 2; 3; 1|]) >]
+[<TestCase ([|1|], Result = [|1; 1|]) >]
+let toEndA a =
+  let NewArr = new ArrList<int> (a) :> IPolyList<int>
+  NewArr.ToEnd 1
+  NewArr.ReturnA
 
 [<Test>]
-let toEndA () =
+let byNumberA1 () =
   let a1 = [|1; 2; 3|]
-  let a2 = [||]
   let NewArr1 = new ArrList<int> (a1) :> IPolyList<int> 
-  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
-  NewArr1.ToEnd 1
-  NewArr2.ToEnd 1
-  Assert.AreEqual (NewArr1.ReturnA, [|1; 2; 3; 1|])
-  Assert.AreEqual (NewArr2.ReturnA, [|1|])
-
-[<Test>]
-let byNumberA () =
-  let a1 = [|1; 2; 3|]
-  let a2 = [||]
-  let NewArr1 = new ArrList<int> (a1) :> IPolyList<int> 
-  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
   Assert.AreEqual (NewArr1.ByNumber 1 1, true)
-  Assert.AreEqual (NewArr2.ByNumber 2 1, false)
-  Assert.AreEqual (NewArr2.ReturnA, [||])
-  Assert.AreEqual (NewArr2.ByNumber 0 1, true)
   Assert.AreEqual (NewArr1.ReturnA, [|1; 1; 2; 3|])
-  Assert.AreEqual (NewArr2.ReturnA, [|1|])
+
+[<TestCase (2, 1, Result = false)>]
+[<TestCase (0, 1, Result = true)>]
+let byNumberA2 num1 num2 =
+  let a2 = [||]
+  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
+  NewArr2.ByNumber num1 num2
+
 
 [<Test>]
 let delTopA () =
@@ -265,13 +280,16 @@ let delEndA () =
   Assert.AreEqual (NewArr2.ReturnA , [||])
 
 [<Test>]
-let delNumA () =
+let delNumA1 () =
   let a1 = [|1; 2; 3|]
-  let a2 = [||]
   let NewArr1 = new ArrList<int> (a1) :> IPolyList<int> 
-  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
   Assert.AreEqual (NewArr1.NumDel 3, true )
   Assert.AreEqual (NewArr1.ReturnA , [|1; 2|])
+
+[<Test>]
+let delNumA2 () =
+  let a2 = [||]
+  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
   Assert.AreEqual (NewArr2.NumDel 3, false )
   Assert.AreEqual (NewArr2.ReturnA , [||])
 
@@ -289,21 +307,19 @@ let concA () =
   Assert.AreEqual (NewArr1.ReturnL, [|1; 2; 3; 1; 2; 3|])
 
 [<Test>]
-let findA () =
+let findA1 () =
   let a1 = [|1; 2; 3|]
-  let a2 = [||]
-  let NewArr1 = new ArrList<int> (a1) :> IPolyList<int> 
-  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
+  let NewArr1 = new ArrList<int> (a1) :> IPolyList<int>
   Assert.AreEqual (NewArr1.Finder (fun x -> x = 3) , Some 3)
-  Assert.AreEqual (NewArr2.Finder (fun x -> x = 1), None)
   Assert.AreEqual (NewArr1.Finder (fun x -> x > 2), Some 3)
+
+[<Test>]
+let findA2 () =
+  let a2 = [||] 
+  let NewArr2 = new ArrList<int> (a2) :> IPolyList<int>
+  Assert.AreEqual (NewArr2.Finder (fun x -> x = 1), None)
 
 [<EntryPoint>]
 let main argv = 
     printfn "%A" argv
     0
-
-
-
-
-
