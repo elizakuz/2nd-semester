@@ -43,10 +43,12 @@ type Map = MNum of float | MOp of char * int
 let MapIt (list : Token list) =
     let mutable maped : Map list = [] 
     let mutable sk : int = 0
+    let mutable st : int = list.Length - 3
     for i = (list.Length - 1) downto 0 do
         match list.[i] with
         | Num x -> maped <- MNum x :: maped
-        | Op x -> maped <- MOp (x, (priority x) + (sk * 3)) :: maped
+        | Op x -> if x = '^' then maped <- MOp (x, (priority x) + (sk * list.Length) + st) :: maped; st <- st - 1
+                  else maped <- MOp (x, (priority x) + (sk * list.Length)) :: maped
         | LB -> sk <- sk - 1
         | RB -> sk <- sk + 1
     maped
@@ -102,6 +104,8 @@ let rec Obhod (tree) =
                            | _, _ -> math (a, Obhod b, Obhod c)
 
 [<TestCase ("1" , Result = 1.0)>]
+[<TestCase ("1 - 2 - 3" , Result = -4.0)>]
+[<TestCase ("3 ^ 1 ^ 2 ", Result = 3.0)>]
 [<TestCase ("1 + 2" , Result = 3.0)>]
 [<TestCase ("1 * 2" , Result = 2.0)>]
 [<TestCase ("1 / 2" , Result = 0.5)>]
