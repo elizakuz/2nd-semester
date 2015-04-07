@@ -118,20 +118,30 @@ let rec Obhod (tree) =
 [<TestCase ("12 * ( 1 + (5 - 8 / 2 ))" , Result = 24.0)>]
 let test s = Obhod (makeTree (MapIt (parser (s))))
 
+
 //task37
-let writePolZap () =
-    use sRead = new StreamReader("MyTest1.txt")
+let lrc tr =
+    let rec LRC tree : string =
+        match tree with
+        | Nil -> ""
+        | Val x -> x.ToString() + "\n"
+        | Oper (a, b, c, d) -> LRC b + LRC c + a.ToString() + "\n" 
+    LRC tr
+
+
+[<TestCase ("1 - 2 - 3", Result = "1\n2\n-\n3\n-\n")>]
+[<TestCase ("3 ^ 1 ^ 2", Result = "3\n1\n2\n^\n^\n")>]
+[<TestCase ("1 + 2 + 3", Result = "1\n2\n+\n3\n+\n")>]
+[<TestCase ("1 + (2 + 3)", Result = "1\n2\n3\n+\n+\n")>]
+[<TestCase ("1 * (3 - 2)", Result = "1\n3\n2\n-\n*\n")>]
+let r s = lrc(makeTree (MapIt (parser (s))))
+
+let writePolZap (fileFrom : string, fileIn : string) =
+    use sRead = new StreamReader(fileFrom)
     let mutable s = sRead.ReadToEnd ()
     let mutable t = makeTree (MapIt (parser (s)))
-    use sWrite = new StreamWriter ("a1.test")
-    let rec writeLRC tr =
-        match tr with
-        | Nil -> sWrite.WriteLine ("")
-        | Val x -> sWrite.WriteLine (x)
-        | Oper (a, b, c, d) -> writeLRC b
-                               writeLRC c
-                               sWrite.WriteLine (a)
-    writeLRC t
+    use sWrite = new StreamWriter (fileIn)
+    sWrite.WriteLine (lrc t)
 
 //task38
 let rec makeT (tre : Tree array) = 
@@ -169,9 +179,5 @@ let writeAnswer () =
     sWrite.WriteLine (Obhod (makeT t))
 
 [<EntryPoint>]
-let main args= 
+let main args=
     0
-
-
-
-
