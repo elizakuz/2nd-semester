@@ -5,42 +5,46 @@
 open System.IO
 open NUnit.Framework
 
-type Token = Num of double | Op of char | LB | RB 
+type Token = Num of double | Op of char | LB | RB | Mut of string 
 
 let priority op =
     match op with 
-    | '^' -> 3
-    | '*' | '/' | '%' -> 2
-    | '+' | '-' -> 1
-    | '(' -> 4
-    | ')' -> 5
-    | ' ' | '\n' | '\r' -> 6
-    | _ -> 0
+    | '^' -> 4
+    | '*' | '/' | '%' -> 3
+    | '+' | '-' -> 2
+    | ' ' | '\n' | '\r'| '(' | ')'  -> 5
+    | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'  -> 0
+    | _ -> 1
 
-let parser (st : string) =
-    let mutable s = st
+let parser (s : string) =
     let mutable list : Token list = []
+    let mutable mark = false
     let mutable zn = ""
     for i = (s.Length - 1) downto 0 do 
-        if priority (s.[i]) < 4 then
-            if priority (s.[i]) > 0 then
+        if priority (s.[i]) < 5 then
+            if priority (s.[i]) > 1 then
                 if zn <> "" then 
-                    list <- (Num (System.Convert.ToDouble (System.Convert.ToInt32(zn)))) :: list
-                    zn <- ""
+                    if mark then list <- (Mut zn) :: list
+                    else list <- (Num (System.Convert.ToDouble (System.Convert.ToInt32(zn)))) :: list
+                    zn <- ""; mark <- false
                 list <- Op (s.[i]) :: list
             else zn <- s.[i].ToString () + zn
-        elif s.[i] = '(' then list <- LB :: list  
-        elif s.[i] = ')' then list <- RB :: list
-        elif (priority s.[i]) = 6 then
-                if zn <> "" then 
-                    list <- (Num (System.Convert.ToDouble (System.Convert.ToInt32(zn)))) :: list
-                    zn <- ""
-    list <- (Num (System.Convert.ToDouble (System.Convert.ToInt32(zn)))) :: list
+                 if priority(s.[i]) = 1 then mark <- true
+        elif zn <> "" then
+            if mark then list <- (Mut zn) :: list
+            else list <- (Num (System.Convert.ToDouble (System.Convert.ToInt32(zn)))) :: list            
+            zn <- ""; mark <-false
+        if s.[i] = '(' then list <- LB :: list  
+        if s.[i] = ')' then list <- RB :: list
+    if zn <> "" then
+        if mark then list <- (Mut zn) :: list
+        else list <- (Num (System.Convert.ToDouble (System.Convert.ToInt32(zn)))) :: list
     list
+
 
 type Map = MNum of float | MOp of char * int
 
-let MapIt (list : Token list) =
+let MapIt (list : Token list, t : list<string * double>) =
     let mutable maped : Map list = [] 
     let mutable sk : int = 0
     let mutable st : int = list.Length - 3
@@ -51,6 +55,9 @@ let MapIt (list : Token list) =
                   else maped <- MOp (x, (priority x) + (sk * list.Length)) :: maped
         | LB -> sk <- sk - 1
         | RB -> sk <- sk + 1
+        | Mut x -> for i = 0 to t.Length - 1 do
+                        match t.[i] with 
+                        | (s, d) -> if s = x then maped <- MNum d :: maped
     maped
       
 type Tree = Val of float | Oper of char * Tree * Tree * int | Nil
@@ -116,8 +123,14 @@ let rec Obhod (tree) =
 [<TestCase ("5 ^ 0 " , Result = 1.0)>]
 [<TestCase ("2 ^ ( 20 - 5 * 2 )" , Result = 1024)>]
 [<TestCase ("12 * ( 1 + (5 - 8 / 2 ))" , Result = 24.0)>]
-let test s = Obhod (makeTree (MapIt (parser (s))))
+let test s = Obhod (makeTree (MapIt (parser (s), [])))
 
+//Task 36
+[<TestCase ("x1", Result = 2.0)>]
+[<TestCase ("1 + x2", Result = 4.0)>]
+[<TestCase ("x3 ^ x1", Result = 25.0)>]
+let ``Testing variables`` st = 
+    Obhod( makeTree(MapIt(parser st, [("x1", 2.0); ("x2", 3.0); ("x3", 5.0) ]))) 
 
 //task37
 let lrc tr =
@@ -134,12 +147,12 @@ let lrc tr =
 [<TestCase ("1 + 2 + 3", Result = "1\n2\n+\n3\n+\n")>]
 [<TestCase ("1 + (2 + 3)", Result = "1\n2\n3\n+\n+\n")>]
 [<TestCase ("1 * (3 - 2)", Result = "1\n3\n2\n-\n*\n")>]
-let r s = lrc(makeTree (MapIt (parser (s))))
+let r s = lrc(makeTree (MapIt (parser (s), [])))
 
 let writePolZap (fileFrom : string, fileIn : string) =
     use sRead = new StreamReader(fileFrom)
     let mutable s = sRead.ReadToEnd ()
-    let mutable t = makeTree (MapIt (parser (s)))
+    let mutable t = makeTree (MapIt (parser (s), []))
     use sWrite = new StreamWriter (fileIn)
     sWrite.WriteLine (lrc t)
 
@@ -167,13 +180,13 @@ let rec makeT (tre : Tree array) =
 [<TestCase ("2 \n 4 \n ^", Result = 16.0)>]
 [<TestCase ("1 \n 1 \n - \n 1 \n -", Result = -1.0)>]
 [<TestCase ("9 \n 2 \n % \n 9 \n * \n 3 \n 3 \n * \n *", Result = 81.0)>]
-let test2 s = Obhod (makeT (createTArr (MapIt (parser (s)))))
+let test2 s = Obhod (makeT (createTArr (MapIt (parser (s), []))))
 
 let writeAnswer () =
     use sRead = new StreamReader("MyTest2.txt")
     let mutable s = sRead.ReadToEnd ()
     let mutable list = parser (s)
-    let mutable map = MapIt (list) 
+    let mutable map = MapIt (list, []) 
     let mutable t = createTArr (map)
     use sWrite = new StreamWriter ("a2.test")
     sWrite.WriteLine (Obhod (makeT t))
