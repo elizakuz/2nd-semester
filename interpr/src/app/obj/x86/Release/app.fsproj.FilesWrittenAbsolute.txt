@@ -1,0 +1,6 @@
+/Users/vladimirkuzmin/Projects/interpr/src/app/obj/x86/Release/.NETFramework,Version=v4.0.AssemblyAttribute.fs
+/Users/vladimirkuzmin/Projects/interpr/build/app.exe
+/Users/vladimirkuzmin/Projects/interpr/src/app/obj/x86/Release/app.exe
+/Users/vladimirkuzmin/Desktop/interpr/src/app/obj/x86/Release/.NETFramework,Version=v4.0.AssemblyAttribute.fs
+/Users/vladimirkuzmin/Desktop/interpr/build/app.exe
+/Users/vladimirkuzmin/Desktop/interpr/src/app/obj/x86/Release/app.exe

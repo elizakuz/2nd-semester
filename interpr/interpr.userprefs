@@ -1,0 +1,21 @@
+﻿<Properties StartupItem="src/app/app.fsproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/test/tests.fs">
+    <Files>
+      <File FileName="src/app/parser.fs" Line="1" Column="1" />
+      <File FileName="src/app/mainTr.fs" Line="1" Column="1" />
+      <File FileName="src/app/Program.fs" Line="1" Column="1" />
+      <File FileName="src/app/exTree.fs" Line="1" Column="1" />
+      <File FileName="src/test/tests.fs" Line="1" Column="1" />
+      <File FileName="src/test/Program.fs" Line="1" Column="1" />
+      <File FileName="src/test/exTree.fs" Line="1" Column="1" />
+      <File FileName="src/test/Test.fs" Line="1" Column="1" />
+      <File FileName="src/test/mainTr.fs" Line="1" Column="1" />
+      <File FileName="src/test/parser.fs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
