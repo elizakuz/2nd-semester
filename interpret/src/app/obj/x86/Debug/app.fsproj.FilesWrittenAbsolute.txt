@@ -1,0 +1,6 @@
+/Users/vladimirkuzmin/Projects/interpret/src/app/obj/x86/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.fs
+/Users/vladimirkuzmin/Projects/interpret/src/app/bin/Debug/app.exe.mdb
+/Users/vladimirkuzmin/Projects/interpret/src/app/bin/Debug/app.exe
+/Users/vladimirkuzmin/Projects/interpret/src/app/obj/x86/Debug/app.exe
+/Users/vladimirkuzmin/Projects/interpret/src/app/obj/x86/Debug/app.exe.mdb
+/Users/vladimirkuzmin/Projects/interpret/src/app/bin/Debug/nunit.framework.dll
