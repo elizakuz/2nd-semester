@@ -1,2 +1,0 @@
-/Users/vladimirkuzmin/Projects/interpr/src/test/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.fs
-/Users/vladimirkuzmin/Desktop/interpr/src/test/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.fs
