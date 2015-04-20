@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{09A15E44-90ED-4B8D-BBFA-428B17F33D96}"
+EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "app", "src\app\app.fsproj", "{7007B6E3-64D4-4C90-88B2-59222F822B2C}"
+EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "test", "src\test\test.fsproj", "{41054BA0-7A0E-4088-B7AD-717C1941A241}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41054BA0-7A0E-4088-B7AD-717C1941A241}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41054BA0-7A0E-4088-B7AD-717C1941A241}.Debug|x86.Build.0 = Debug|Any CPU
+		{41054BA0-7A0E-4088-B7AD-717C1941A241}.Release|x86.ActiveCfg = Release|Any CPU
+		{41054BA0-7A0E-4088-B7AD-717C1941A241}.Release|x86.Build.0 = Release|Any CPU
+		{7007B6E3-64D4-4C90-88B2-59222F822B2C}.Debug|x86.ActiveCfg = Debug|x86
+		{7007B6E3-64D4-4C90-88B2-59222F822B2C}.Debug|x86.Build.0 = Debug|x86
+		{7007B6E3-64D4-4C90-88B2-59222F822B2C}.Release|x86.ActiveCfg = Release|x86
+		{7007B6E3-64D4-4C90-88B2-59222F822B2C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7007B6E3-64D4-4C90-88B2-59222F822B2C} = {09A15E44-90ED-4B8D-BBFA-428B17F33D96}
+		{41054BA0-7A0E-4088-B7AD-717C1941A241} = {09A15E44-90ED-4B8D-BBFA-428B17F33D96}
+	EndGlobalSection
+EndGlobal
