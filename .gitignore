@@ -5,3 +5,5 @@
 *.userprofs
 *DS_Store
 *.DS_Store
+*.userprefs
+*.sin
