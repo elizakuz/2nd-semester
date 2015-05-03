@@ -1,0 +1,8 @@
+*bin
+*obj
+*NUnit.Runners
+*NUnit.2.6.4
+*.userprofs
+*DS_Store
+*.DS_Store
+*.userprefs
