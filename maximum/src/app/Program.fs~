@@ -10,7 +10,7 @@ let maxElem (arr : int []) l r : int =
   res
 
 let max threadNumber (arr : int []) : int =
-  let res = ref arr.[0]
+  let res = ref 0
   let step = arr.Length / threadNumber
   let ost = arr.Length % threadNumber
   let threadArray = Array.init threadNumber (fun i ->
